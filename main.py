@@ -25,18 +25,17 @@ for com in commands:
     com.show()
     i += 1
 
+#enumerate
 for i in range(1, len(commands)):
     for j in range(0, i):
         com_cmp(commands[i], commands[j])
 
-commands[0].time.append(1)
-for i in range(1, len(commands)):
-    for j in range(0, i):
-        time_cmp(commands[i], commands[j])
+# commands[0].time.append(1)
+# for i in range(1, len(commands)):
+#     for j in range(0, i):
+#         time_cmp(commands[i], commands[j])
 
+print("res")
 for com in commands:
     com.show()
-
-current_takt = Takt(WRITING, RAM, REG, REG, READING)
-takt_error = current_takt.is_conflict()
 

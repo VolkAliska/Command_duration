@@ -3,9 +3,16 @@
 
 def com_cmp(com1, com2):
     """ Compare 1 in the similar takts and insert 3 instead "no operation" """
-    for i in range(0, min(len(com1.time), len(com2.time))):
+    minlen = min(len(com1.time), len(com2.time))
+    count = minlen
+    i = 0
+    while count > 0:
+        count = count - 1
         if (com1.time[i] == 1) and (com1.time[i] == com2.time[i]):
             com1.time.insert(i, 3)
+            count = count + 1
+        if i < min(len(com1.time), len(com2.time)) - 1:
+            i = i + 1
 
 
 def time_cmp(com1, com2):
@@ -53,7 +60,10 @@ class Command():
         """" Command working process: 1 - use memory """
         time = [0, 0]
         for i in range(0, self.op2):
-            time.append(1)
+            if self.op2 == 1:
+                time.append(0)
+            else:
+                time.append(1)
         for i in range(0, self.calc):
             time.append(0)
         #time.append(1) for correct working insert 1 for writing later
