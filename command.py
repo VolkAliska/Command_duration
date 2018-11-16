@@ -35,18 +35,17 @@ class Command():
         print(description)
 
     def show_res_version(self):
-        if self.op2 == 1:
-            op2property = 'REG'
-        else:
-            op2property = 'P'
 
         not_op_count = 0
         not_op_count_2 = 0
+        count_shift = 0
 
         read_f = 0
         op1_f = 0
         op2_f = 0
         for i in self.time:
+            if i == 2:
+                count_shift += 1
             if i == 0 and read_f == 0:
                 read_f = 1
                 continue
@@ -62,14 +61,34 @@ class Command():
             if i == 3 and op2_f == 1:
                 not_op_count_2 += 1
                 continue
-
-        description = 'Type: {}, read: {}, op1 - REG: {}, "not operation": {}, op2 - {} : {}, calc: {},' \
-                      ' "not operation": {}, write: {}\n time: {}'\
-            .format(self.type, self.read,
-                    self.op1, not_op_count,
-                    op2property, self.op2,
-                    self.calc, not_op_count_2,
-                    self.write, len(self.time))
+        description = []
+        shift = '    '
+        read = 'READ'
+        o1 = 'REG '
+        if self.op2 == 1:
+            o2 = 'REG '
+        else:
+            o2 = ' MEM'
+        not_o = '____'
+        calcul = 'CALC'
+        write = 'WRITE'
+        while count_shift > 0:
+            description.append(shift)
+            count_shift -= 1
+        description.append(read)
+        description.append(o1)
+        for i in range(0, not_op_count):
+            description.append(not_o)
+        if self.op2 == 1:
+            description.append(o2)
+        else:
+            for i in range(0, self.op2):
+                description.append(o2)
+        for i in range(0, self.calc):
+            description.append(calcul)
+        for i in range(0, not_op_count_2):
+            description.append(not_o)
+        description.append(write)
         print(description)
 
     def get_time(self):

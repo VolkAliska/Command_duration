@@ -1,7 +1,15 @@
 # main.py
 
-from command import *
 
+from command import *
+from data_input import *
+
+p_k = get_pk()
+p_op2 = get_pop2()
+num = input('Enter number of commands\n')
+
+for i in range(0, int(num)):
+    com = generate_command(p_k, p_op2)
 
 commands = []
 
