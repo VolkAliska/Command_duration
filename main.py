@@ -7,9 +7,13 @@ from data_input import *
 p_k = get_pk()
 p_op2 = get_pop2()
 num = input('Enter number of commands\n')
+pam = input('Enter time value for reading the second operand: 2, 5, 10\n')
+calc = input('Enter time value for calculation: 4, 8, 16\n')
 
+data = open("data.txt", 'w')
+data.close()
 for i in range(0, int(num)):
-    com = generate_command(p_k, p_op2)
+    com = generate_command(p_k, p_op2, calc, pam)
 
 commands = []
 
@@ -39,6 +43,7 @@ max_time = 0
 for com in commands:
     max_time += len(com.time)
 
-print(max_time)
+# print(max_time)
 av_time = max_time / len(commands)
+print("\n\nAverage time:")
 print(av_time)

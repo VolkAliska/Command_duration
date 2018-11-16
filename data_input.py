@@ -14,21 +14,19 @@ def get_pop2():
     return p_op2
 
 
-def generate_command(p_k, p_op2):
+def generate_command(p_k, p_op2, calc, pam):
     data = open("data.txt", 'a')
     t = [1, 2]
     com_type = np.random.choice(t, p=[float(p_k), 1 - float(p_k)])
     if com_type == 2:
-        t = [4, 8, 16]
-        com_calc = random.choice(t)
+        com_calc = calc
     else:
         com_calc = 1
     op2 = [1, 2] # 1 - reg, 2 - mem
     com_op2 = np.random.choice(op2, p=[float(p_op2), 1 - float(p_op2)])
     if com_op2 == 2:
-        t = [2, 5, 10]
-        com_op2 = random.choice(t)
-    command = [type, com_op2, com_calc]
+        com_op2 = pam
+    command = [com_type, com_op2, com_calc]
     data.write('{} {} {}\n'.format(com_type, com_op2, com_calc))
     data.close()
     return command
