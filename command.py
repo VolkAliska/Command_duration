@@ -3,39 +3,17 @@
 
 def com_cmp(com1, com2):
     """ Compare 1 in the similar takts and insert 3 instead "no operation" """
+    first1 = com1.time.index(1);
     minlen = min(len(com1.time), len(com2.time))
     count = minlen
     i = 0
     while count > 0:
         count = count - 1
         if (com1.time[i] == 1) and (com1.time[i] == com2.time[i]):
-            com1.time.insert(i, 3)
+            com1.time.insert(first1, 3)
             count = count + 1
         if i < min(len(com1.time), len(com2.time)) - 1:
             i = i + 1
-
-
-def time_cmp(com1, com2):
-    """ Append 1 in the end like "writing", 4 if needed like "no operation" """
-    flag = 0
-    while 1:
-        if flag == 1:
-            break
-        if len(com2.time)-1 > len(com1.time):
-            if (com2.time[len(com1.time)-1] == 1 or com2.time[len(com1.time)-1] == 4) and com1.time[len(com1.time)-1] != 1:
-                com1.time.append(4)
-            elif (com2.time[len(com1.time)-1] == 1 or com2.time[len(com1.time)-1] == 4) and com1.time[len(com1.time)-1] == 1:
-                com1.time.insert(len(com1.time)-1, 4)
-            else:
-                if com1.time[len(com1.time) - 1] == 1:
-                    break
-                com1.time.append(1)
-                flag = 1
-        else:
-            if com1.time[len(com1.time) - 1] == 1:
-                break
-            com1.time.append(1)
-            flag = 1
 
 
 class Command():
@@ -48,12 +26,41 @@ class Command():
         self.write = 1
         self.time = self.get_time()
 
-    def show(self):
+    def show_work_version(self):
         description = 'Type: {}, read: {}, op1: {}. op2: {}, calc: {}, write: {}\n time: {}\n mem: {}'\
             .format(self.type, self.read,
                     self.op1, self.op2,
                     self.calc, self.write,
                     len(self.time), self.time)
+        print(description)
+
+    def show_res_version(self):
+        if self.op2 == 1:
+            op2property = 'REG'
+        else:
+            op2property = 'P'
+        is_not_operation = 0
+        another_n_o = 0
+        not_op_count = 0
+        not_op_count_2 = 0
+        for i in self.time[2:]:
+            if i == 3 and another_n_o == 0:
+                is_not_operation = 1
+                not_op_count += 1
+            if i != 3 and is_not_operation == 1:
+                another_n_o = 1
+                is_not_operation = 0
+            if i == 3 and another_n_o == 1:
+                is_not_operation = 1
+                not_op_count_2 += 1
+
+        description = 'Type: {}, read: {}, op1 - REG: {}, "not operation": {}, op2 - {} : {}, calc: {},' \
+                      ' "not operation": {}, write: {}\n time: {}'\
+            .format(self.type, self.read,
+                    self.op1, not_op_count,
+                    op2property, self.op2,
+                    self.calc, not_op_count_2,
+                    self.write, len(self.time))
         print(description)
 
     def get_time(self):
@@ -66,7 +73,8 @@ class Command():
                 time.append(1)
         for i in range(0, self.calc):
             time.append(0)
-        #time.append(1) for correct working insert 1 for writing later
+        time.append(1)
+# time.append(1) for correct working insert 1 for writing later
         return time
 
     def norm_time(self, i):
