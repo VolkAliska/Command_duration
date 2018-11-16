@@ -39,20 +39,29 @@ class Command():
             op2property = 'REG'
         else:
             op2property = 'P'
-        is_not_operation = 0
-        another_n_o = 0
+
         not_op_count = 0
         not_op_count_2 = 0
-        for i in self.time[2:]:
-            if i == 3 and another_n_o == 0:
-                is_not_operation = 1
+
+        read_f = 0
+        op1_f = 0
+        op2_f = 0
+        for i in self.time:
+            if i == 0 and read_f == 0:
+                read_f = 1
+                continue
+            if i == 0 and op1_f == 0:
+                op1_f = 1
+                continue
+            if i == 3 and op2_f == 0:
                 not_op_count += 1
-            if i != 3 and is_not_operation == 1:
-                another_n_o = 1
-                is_not_operation = 0
-            if i == 3 and another_n_o == 1:
-                is_not_operation = 1
+                continue
+            if i == 1 or i == 0 and op1_f == 1:
+                op2_f = 1
+                continue
+            if i == 3 and op2_f == 1:
                 not_op_count_2 += 1
+                continue
 
         description = 'Type: {}, read: {}, op1 - REG: {}, "not operation": {}, op2 - {} : {}, calc: {},' \
                       ' "not operation": {}, write: {}\n time: {}'\
